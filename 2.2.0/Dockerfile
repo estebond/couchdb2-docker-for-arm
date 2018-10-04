@@ -10,9 +10,7 @@
 # License for the specific language governing permissions and limitations under
 # the License.
 
-FROM debian:stretch
-
-MAINTAINER CouchDB Developers dev@couchdb.apache.org
+FROM multiarch/debian-debootstrap:armhf-stretch
 
 # Add CouchDB user account
 RUN groupadd -g 5984 -r couchdb && useradd -u 5984 -d /opt/couchdb -g couchdb couchdb
@@ -37,13 +35,21 @@ RUN apt-get update -y && apt-get install -y \
         gpg --keyserver $server --recv-keys 8756C4F765C9AC3CB6B85D62379CE192D401AB61 && break || : ; \
         done \
     && gpg -a --export 8756C4F765C9AC3CB6B85D62379CE192D401AB61 > /etc/apt/trusted.gpg.d/couchdb.gpg.asc \
-    && apt-get update -y && apt-get install -y --no-install-recommends couch-libmozjs185-1.0 \
+    && apt-get update -y \
     && rm -rf /var/lib/apt/lists/*
+
+RUN wget http://packages.erlang-solutions.com/debian/erlang_solutions.asc \
+	&& apt-key add erlang_solutions.asc \
+	&& apt-get update \
+	&& apt-get install -y erlang-nox erlang-dev erlang-reltool \
+	&& apt-get install -y build-essential \
+	&& apt-get install -y libmozjs185-1.0 libmozjs185-dev \
+	&& apt-get install -y libcurl4-openssl-dev libicu-dev
 
 # grab gosu for easy step-down from root and tini for signal handling
 # see https://github.com/apache/couchdb-docker/pull/28#discussion_r141112407
 ENV GOSU_VERSION 1.10
-ENV TINI_VERSION 0.16.1
+ENV TINI_VERSION 0.18.0
 RUN set -ex; \
 	\
 	apt-get update; \
@@ -110,20 +116,7 @@ RUN set -xe \
 ENV COUCHDB_VERSION 2.2.0
 
 # Download dev dependencies
-RUN buildDeps=' \
-        build-essential \
-        couch-libmozjs185-dev \
-        erlang-dev \
-        erlang-nox \ 
-        erlang-reltool \
-        libcurl4-openssl-dev \
-        libicu-dev \
-        make \
-        libssl-dev \
-    ' \
-    && apt-get update -y -qq && apt-get install -y --no-install-recommends $buildDeps \
-    # Acquire CouchDB source code
-    && cd /usr/src && mkdir couchdb \
+RUN cd /usr/src && mkdir couchdb \
     && curl -fSL https://dist.apache.org/repos/dist/release/couchdb/source/$COUCHDB_VERSION/apache-couchdb-$COUCHDB_VERSION.tar.gz -o couchdb.tar.gz \
     && curl -fSL https://dist.apache.org/repos/dist/release/couchdb/source/$COUCHDB_VERSION/apache-couchdb-$COUCHDB_VERSION.tar.gz.asc -o couchdb.tar.gz.asc \
     && gpg --batch --verify couchdb.tar.gz.asc couchdb.tar.gz \
