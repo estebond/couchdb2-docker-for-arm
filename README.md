@@ -1,4 +1,6 @@
-# Semi-official Apache CouchDB Docker images [![Build Status](https://travis-ci.org/apache/couchdb-docker.svg?branch=master)](https://travis-ci.org/apache/couchdb-docker)
+# Very unoffical Apache CouchDB 2.2.0 Docker image based on Debian arm arch [![Build Status](https://travis-ci.org/estebond/couchdb2-docker-for-arm.svg?branch=master)](https://travis-ci.org/estebond/couchdb2-docker-for-arm)
+
+**NOTE**: Details below were pulled from the semi-official couchdb-docker repo.
 
 Put the couch in a docker container and ship it anywhere.
 
