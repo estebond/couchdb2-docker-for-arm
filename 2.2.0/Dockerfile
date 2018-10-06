@@ -10,7 +10,7 @@
 # License for the specific language governing permissions and limitations under
 # the License.
 
-FROM multiarch/debian-debootstrap:armhf-stretch
+FROM armhf/debian
 
 # Add CouchDB user account
 RUN groupadd -g 5984 -r couchdb && useradd -u 5984 -d /opt/couchdb -g couchdb couchdb
