@@ -21,8 +21,8 @@ RUN apt-get update -y && apt-get install -y \
         curl \
         dirmngr \
         gnupg \
-        libicu57 \
-        libssl1.1 \
+        libicu-dev \
+	libicu52 \
         openssl \
         python \
     && echo "deb https://apache.bintray.com/couchdb-deb stretch main" \
