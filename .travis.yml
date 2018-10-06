@@ -11,7 +11,7 @@ script:
 # prepare qemu
 - docker run --rm --privileged multiarch/qemu-user-static:register --reset
 # build image
-- docker build -t couchdb2-arm-debian $rel
+- docker build -t couchdb2-arm-debian 2.2.0
 # test image
 - docker run -t couchdb2-arm-debian -p 5984:5984 
 - sleep 10 
