@@ -7,4 +7,4 @@ env:
   - RELEASES=2.2.0
 
 script:
-  - for rel in $RELEASES; do docker build -t couchdb2-arm-debian $rel; docker run -d --name couchdb2-arm-debian -p 5984:5984 couchdb:$rel && sleep 10 && curl http://localhost:5984 && docker kill $rel; done
+  - for rel in $RELEASES; do docker build -t couchdb2-arm-debian $rel; docker run -t couchdb2-arm-debian -p 5984:5984 && sleep 10 && curl http://localhost:5984 && docker kill $rel; done
