@@ -10,7 +10,7 @@
 # License for the specific language governing permissions and limitations under
 # the License.
 
-FROM resin/rpi-raspbian
+FROM arm32v7/ubuntu:xenial
 
 # Add CouchDB user account
 RUN groupadd -g 5984 -r couchdb && useradd -u 5984 -d /opt/couchdb -g couchdb couchdb
@@ -38,7 +38,7 @@ RUN apt-get update -y && apt-get install -y \
     && apt-get update -y \
     && rm -rf /var/lib/apt/lists/*
 
-RUN wget http://packages.erlang-solutions.com/debian/erlang_solutions.asc \
+RUN wget http://packages.erlang-solutions.com/ubuntu/erlang_solutions.asc \
 	&& apt-key add erlang_solutions.asc \
 	&& apt-get update \
 	&& apt-get install -y erlang-nox erlang-dev erlang-reltool \
