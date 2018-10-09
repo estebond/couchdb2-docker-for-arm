@@ -21,24 +21,13 @@ RUN apt-get update -y && apt-get install -y \
         curl \
         dirmngr \
         gnupg \
-        libicu-dev \
 	libicu52 \
         openssl \
         python \
-    && echo "deb https://apache.bintray.com/couchdb-deb stretch main" \
-        | tee /etc/apt/sources.list.d/couchdb.list \
-    && cat /etc/apt/sources.list.d/couchdb.list \
-    && for server in $(shuf -e pgpkeys.mit.edu \
-            ha.pool.sks-keyservers.net \
-            hkp://p80.pool.sks-keyservers.net:80 \
-            pgp.mit.edu) ; do \
-        gpg --keyserver $server --recv-keys 8756C4F765C9AC3CB6B85D62379CE192D401AB61 && break || : ; \
-        done \
-    && gpg -a --export 8756C4F765C9AC3CB6B85D62379CE192D401AB61 > /etc/apt/trusted.gpg.d/couchdb.gpg.asc \
     && apt-get update -y \
     && rm -rf /var/lib/apt/lists/*
 
-RUN wget http://packages.erlang-solutions.com/ubuntu/erlang_solutions.asc \
+RUN wget http://packages.erlang-solutions.com/debian/erlang_solutions.asc \
 	&& apt-key add erlang_solutions.asc \
 	&& apt-get update \
 	&& apt-get install -y erlang-nox erlang-dev erlang-reltool \
