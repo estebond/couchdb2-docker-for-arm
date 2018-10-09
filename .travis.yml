@@ -13,10 +13,8 @@ script:
 - wget https://github.com/multiarch/qemu-user-static/releases/download/v2.12.0-1/qemu-arm-static.tar.gz -O /tmp/qemu-arm-static.tar.gz
 - tar zxvf /tmp/qemu-arm-static.tar.gz -C /tmp
 # build image
-- docker build --help
-- docker build -v type=bind,source=/tmp/qemu-arm-static,target=/usr/bin/qemu-arm-static -t couchdb2-arm-debian 2.2.0
-# test image
-- docker run -t couchdb2-arm-debian -p 5984:5984 
-- sleep 10 
+- docker-compose -f 2.2.0/couchdb-arm.yml up --abort-on-container-exit
+- sleep 15
 - curl http://localhost:5984
-- docker kill couchdb2-arm-debian
+- docker-compose -f 2.2.0/couchdb-arm.yml down -v --rmi local
+

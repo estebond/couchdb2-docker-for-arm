@@ -1,0 +1,6 @@
+version: '3'
+services:  
+  debian-arm:
+    image: arm32v7/ubuntu:xenial
+    volumes: 
+      - /tmp/qemu-arm-static:/usr/bin/qemu-arm-static
